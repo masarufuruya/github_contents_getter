@@ -15,8 +15,10 @@ conn = Faraday::Connection.new(:url => 'https://api.github.com') do |builder|
     builder.use Faraday::Adapter::NetHttp
 end
 
+commit_ref = '86af399afebdd9fdcdd91430918e56ce2bad7bb5'
+
 res = conn.get do |req|
-  req.url '/repos/masarufuruya/typescript_study/contents/five_mininues.html?ref=86af399afebdd9fdcdd91430918e56ce2bad7bb5'
+  req.url '/repos/masarufuruya/typescript_study/contents/five_mininues.html?ref=#{commit_ref}'
   req.headers['Authorization'] = 'bearer ' + token
 end
 
