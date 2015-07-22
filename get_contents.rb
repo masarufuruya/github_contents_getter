@@ -16,14 +16,15 @@ conn = Faraday::Connection.new(:url => 'https://api.github.com') do |builder|
 end
 
 res = conn.get do |req|
-  req.url '/repos/masarufuruya/typescript_study/readme'
+  req.url '/repos/masarufuruya/typescript_study/contents/five_mininues.html?ref=86af399afebdd9fdcdd91430918e56ce2bad7bb5'
   req.headers['Authorization'] = 'bearer ' + token
 end
 
+# json decode ruby object
 response = res.body
-
 res_ob = JSON.parse(response)
-# puts res_ob
-content = res_ob['content']
 
+# get by hash key content
+content = res_ob['content']
+# decode base64
 puts Base64.decode64(content)
