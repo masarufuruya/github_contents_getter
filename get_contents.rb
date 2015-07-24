@@ -4,9 +4,10 @@ require "base64"
 require "json"
 
 # Githubトークンを環境変数から取得
-token = ENV['TOKEN']
+token = ENV["TOKEN"]
+p token
 
-conn = Faraday::Connection.new(:url => 'https://api.github.com') do |builder|
+conn = Faraday::Connection.new(:url => "https://api.github.com") do |builder|
     ## URLをエンコードする
     builder.use Faraday::Request::UrlEncoded
     ## ログを標準出力に出したい時(本番はコメントアウトでいいかも)
@@ -15,11 +16,12 @@ conn = Faraday::Connection.new(:url => 'https://api.github.com') do |builder|
     builder.use Faraday::Adapter::NetHttp
 end
 
-commit_ref = '86af399afebdd9fdcdd91430918e56ce2bad7bb5'
+commit_ref = "9b4f8efd700d13777bf725abef9567f186fdf72c"
 
 res = conn.get do |req|
-  req.url '/repos/masarufuruya/typescript_study/contents/five_mininues.html?ref=#{commit_ref}'
-  req.headers['Authorization'] = 'bearer ' + token
+  # req.url "/repos/masarufuruya/hackwith/contents/app/controllers/top_controller.rb?ref=#{commit_ref}"
+  req.url "/repos/masarufuruya/github_contents_getter/contents/get_contents.rb?ref=#{commit_ref}"
+  req.headers["Authorization"] = "bearer " + token
 end
 
 # json decode ruby object
@@ -27,6 +29,6 @@ response = res.body
 res_ob = JSON.parse(response)
 
 # get by hash key content
-content = res_ob['content']
+content = res_ob["content"]
 # decode base64
 puts Base64.decode64(content)
